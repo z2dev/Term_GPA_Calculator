@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Term GPA Calculator</title>
+
+    <style>
+        body {
+            font-family: "Segoe UI", sans-serif;
+            background: #f0f2f5;
+            color: #333;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #2c3e50;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 500px;
+            margin: auto;
+        }
+
+        .card {
+            background: #ffffff;
+            border: 1px solid #d5dbe0;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .title {
+            font-size: 16px;
+            margin-bottom: 8px;
+            color: #2c3e50;
+        }
+
+        select {
+            width: 100%;
+            padding: 10px;
+            border-radius: 7px;
+            border: 1px solid #ccc;
+            background: white;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #345e8e;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 17px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background: hsl(212, 74%, 33%);
+        }
+
+        #result {
+            margin-top: 25px;
+            text-align: center;
+            font-size: 20px;
+            color: #2c3e50;
+            font-weight: bold;
+        }
+
+        #letter {
+            text-align: center;
+            margin-top: 5px;
+            font-size: 18px;
+            color: #546a7b;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Term GPA Calculator</h1>
+
+    <div class="container">
+
+        <div class="card">
+            <div class="title">Operating Systems</div>
+            <select data-hours="3"></select>
+        </div>
+
+        <div class="card">
+            <div class="title">Software Engineering</div>
+            <select data-hours="3"></select>
+        </div>
+
+        <div class="card">
+            <div class="title">Algorithms</div>
+            <select data-hours="3"></select>
+        </div>
+
+        <div class="card">
+            <div class="title">Computer Architecture</div>
+            <select data-hours="3"></select>
+        </div>
+
+        <div class="card">
+            <div class="title">Logic</div>
+            <select data-hours="3"></select>
+        </div>
+
+    </div>
+
+    <button onclick="calcGPA()">Calculate GPA</button>
+
+    <div id="result"></div>
+    <div id="letter"></div>
+
+    <script>
+        const options = `
+            <option value="5.00">A+</option>
+            <option value="4.75">A</option>
+            <option value="4.50">B+</option>
+            <option value="4.00">B</option>
+            <option value="3.50">C+</option>
+            <option value="3.00">C</option>
+            <option value="2.50">D+</option>
+            <option value="2.00">D</option>
+            <option value="0">F</option>
+        `;
+
+        document.querySelectorAll("select").forEach(sel => {
+            sel.innerHTML = options;
+        });
+
+        function getLetter(gpa) {
+            if (gpa >= 5.00) return "A+";
+            if (gpa >= 4.75) return "A";
+            if (gpa >= 4.50) return "B+";
+            if (gpa >= 4.00) return "B";
+            if (gpa >= 3.50) return "C+";
+            if (gpa >= 3.00) return "C";
+            if (gpa >= 2.50) return "D+";
+            if (gpa >= 2.00) return "D";
+            return "F";
+        }
+
+        function calcGPA() {
+            const selects = document.querySelectorAll('select');
+            let totalPoints = 0;
+            let totalHours = 0;
+
+            selects.forEach(sel => {
+                const points = parseFloat(sel.value);
+                const hours = parseInt(sel.getAttribute('data-hours'));
+                totalPoints += points * hours;
+                totalHours += hours;
+            });
+
+            const gpa = totalPoints / totalHours;
+
+            const letter = getLetter(gpa);
+
+            document.getElementById("result").innerText =
+                "Your expected GPA: " + gpa.toFixed(2) + " / 5.00";
+
+            document.getElementById("letter").innerText =
+               letter;
+        }
+    </script>
+
+</body>
+</html>
